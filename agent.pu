@@ -1,0 +1,117 @@
+@startuml Agents
+
+namespace BathESP01 {
+
+class LightSensor {
+    ..funcs..
+    - int[] thresholdList
+    + int[] addThreshold(int value)
+    + int[] removeThreshold(int value)
+    + int[] getLightOnThresholdList()
+    + int getLightValue() 
+    ..events..
+    {threshod,up/down} thresholdBreak()
+}
+
+class HumanSensor {
+    ..funcs..    
+    + bool isHumanIn()
+    ..events..
+    + humanIn()
+    + humanOut()
+}
+
+class IRSender {
+    ..cmds..
+    + bool sendCmd(String hex, McType type)
+}
+
+}
+
+class Lamp {
+    ..funcs..
+    + bool isOn()
+    + long getOnTime()
+    ..cmds..
+    + bool turnOn()
+    + bool turnOff()
+    + bool incrLight()
+    + bool decrLight()
+    ..events..
+    + on()
+    + off()
+}
+
+class SoilHumidity {
+    ..funcs..
+    - int[] thresholdList
+    + int[] addThreshold(int value)
+    + int[] removeThreshold(int value)
+    + int[] getLightOnThresholdList()
+    + int getLightValue() 
+    ..events..
+    {threshod,up/down} thresholdBreak()
+}
+
+class BathHeater {
+    ..funcs..
+    + bool isOn()
+    + long getOnTime()
+    ..cmds..
+    + turnOn()
+    + turnOff()
+    ..events..
+    + on()
+    + off()
+}
+
+namespace KitcESP01 {
+
+class Smoke {
+    ..funcs..
+    - int[] thresholdList
+    + int[] addThreshold(int value)
+    + int[] removeThreshold(int value)
+    + int[] getThresholdList()
+    + int getSmokeValue() 
+    ..events..
+    {threshod,up/down} thresholdBreak()
+}
+
+class MCU {
+    ..让事件直接触发命令..
+    + link(Event ev, Cmd cmd);
+    + unlink(Event ev, Cmd cmd);
+    ..烟处理..
+    + enableBuzzWhenBreak(int value);
+    + disableBuzzWhenBreak(int value);
+}
+
+class Buzzer {
+    ..funcs..
+    + bool isOn()
+    void buzz(int[] value, int[]delay)
+    ..events..
+    + buzz()
+    + quiet()
+}
+
+}
+
+namespace KitcESP02 {
+
+class Fan {
+    ..funcs..
+    + isOn()
+    + long getOnTime()
+    ..cmds..
+    + turnOn(int time)
+    + turnOff()
+    ..events..
+    + on()
+    + off()
+}
+
+}
+
+@enduml
