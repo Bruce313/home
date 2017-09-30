@@ -1,9 +1,5 @@
 <template>
     <div class="wrapper" @click="update">
-        <image :src="logoUrl" class="logo"></image>
-        <text class="title">Hello {{target}}</text>
-        <text class="desc">Now, let's use vue to build your weex app.</text>
-        <button v-on:click="updateTime">更新时间</button>
         <text class="label">夜灯</text>
         <div class="light-bubble" v-bind:class="{light_on: isLightOn}" ></div>
         <switch @change="toggleLight"></switch>
@@ -12,8 +8,8 @@
 
 <style>
     .light-bubble {
-        width: 200px;
-        height: 200px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
     }
     .light_on {

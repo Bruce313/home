@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"golang.org/x/net/websocket"
+	"github.com/Bruce313/home/agent"
 )
 
 func Echo(ws *websocket.Conn) {
@@ -31,6 +32,16 @@ func Echo(ws *websocket.Conn) {
 }
 
 func main() {
+	confPath := "./config.toml"
+	conf, err := ParseConfig(confPath)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	_ = agent.NewLightSensor(conf.LightSensors[0].HttpURL)
+
+
 	http.Handle("/", websocket.Handler(Echo))
 
 	if err := http.ListenAndServe(":1234", nil); err != nil {

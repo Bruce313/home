@@ -2,14 +2,21 @@ package agent
 
 import (
     "github.com/mozillazg/request"
-    "net/url"
     "errors"
     "strconv"
+    "net/http"
 )
 
 type LightSensor struct {
-    url2Request *url.URL
+    url2Request string
     request     *request.Request
+}
+
+func NewLightSensor(url string) *LightSensor {
+    return &LightSensor {
+        url,
+        request.NewRequest(&http.Client{}),
+    }
 }
 
 var NOT_JSON = errors.New("not json")
@@ -18,7 +25,7 @@ var RESPONSE_BODY_ILLEGAL = errors.New("body illegal")
 const ADD_THREAD = "/thresholds/"
 func (ls *LightSensor) AddThreshold(value int) (isSuccessful bool, err error) {
     isSuccessful = false
-    res, err := ls.request.Post(ls.url2Request.String() + ADD_THREAD + strconv.Itoa(value))
+    res, err := ls.request.Post(ls.url2Request + ADD_THREAD + strconv.Itoa(value))
     if err != nil {
         return
     }
@@ -35,9 +42,9 @@ func (ls *LightSensor) AddThreshold(value int) (isSuccessful bool, err error) {
     return
 }
 
-const URL_GET_LIGHT_VALUE = "/light"
-func (ls *LightSensor) getLightValue() (lightValue int, err error) {
-    res, err := ls.request.Get(ls.url2Request.String() + URL_GET_LIGHT_VALUE)
+const URL_GET_LIGHT_VALUE = "/value"
+func (ls *LightSensor) GetSenseValue() (lightValue int, err error) {
+    res, err := ls.request.Get(ls.url2Request + URL_GET_LIGHT_VALUE)
     if err != nil {
         return
     }

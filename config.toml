@@ -1,0 +1,20 @@
+[[rooms]]
+name = "bath"
+id = 1
+
+[[light_sensors]]
+room_id = 1
+id = 1
+http_url = "http://192.168.31.169"
+light_value_path = "/value"
+
+
+[[ir_senders]]
+room_id = 1
+id = 1
+http_url = "http://192.168.31.169"
+cmd_send_path = "/cmd"
+
+[[motion_sensors]]
+room_id = 1
+id = 1
