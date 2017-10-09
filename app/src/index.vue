@@ -1,61 +1,55 @@
 <template>
-    <div class="wrapper" @click="update">
-        <text class="label">夜灯</text>
-        <div class="light-bubble" v-bind:class="{light_on: isLightOn}" ></div>
-        <switch @change="toggleLight"></switch>
+    <div class="wrapper">
+        <text class="label">Light:<switch @change="toggleLight" class="light-switch"></switch></text>
+        <div class="light-div">
+            <div class="light-bubble" v-bind:class="{light_on: isLightOn}" ></div>
+            <div class="light-bottom"></div>
+        </div>
     </div>
 </template>
 
 <style>
+    .inline-div {
+        display: inline;
+    }
+    .light-div {
+        margin-top: 30px;
+    }
+    .light-bottom {
+        width: 30px;
+        height:30px;
+        border-radius: 5px;
+        background-color: darkcyan;
+        margin-left: 35px;
+    }
     .light-bubble {
-        width: 50px;
-        height: 50px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
     }
     .light_on {
-        background-color: chartreuse;
+        background-color: #f9ff0f;
     }
-    .wrapper {
-        align-items: center;
-        margin-top: 120px;
-    }
-
-    .title {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        font-size: 48px;
-    }
-
-    .logo {
-        width: 360px;
-        height: 156px;
-    }
-
-    .desc {
-        padding-top: 20px;
-        color: #888;
-        font-size: 24px;
+    .light-switch {
     }
 </style>
 
 <script>
+    const serverURL = "http://10.2.0.205:1234";
+    const stream = weex.requireModule('stream');
     export default {
         data: {
-            logoUrl: 'http://img1.vued.vanthink.cn/vued08aa73a9ab65dcbd360ec54659ada97c.png',
-            target: 'World',
             isLightOn: false,
         },
         methods: {
             toggleLight: function () {
-                this.isLightOn = !this.isLightOn;
+                stream.fetch({
+                    method: 'GET',
+                    url: serverURL + '/light',
+                }, function (res) {
+                    console.log(res);
+                })
             },
-            updateTime: function () {
-              this.target = new Date();
-            },
-            update: function (e) {
-                this.target = 'Weex'
-                console.log('target:', this.target)
-            }
         }
     }
 </script>

@@ -41,8 +41,9 @@ func main() {
 
 	_ = agent.NewLightSensor(conf.LightSensors[0].HttpURL)
 
+	http.Handle("/light", &LightHandler{})
 
-	http.Handle("/", websocket.Handler(Echo))
+	http.Handle("/websocket", websocket.Handler(Echo))
 
 	if err := http.ListenAndServe(":1234", nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
